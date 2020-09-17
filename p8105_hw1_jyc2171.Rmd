@@ -5,11 +5,59 @@ date: 2019-09-17
 output: github_document
 ---
 
-This is my solution to Homework 1
+This is my solution to Problem 1
 
-```{r setup, include = FALSE}
+```{r include = FALSE} 
 library(tidyverse)
 ```
+
+Data frame comprised of the specified elements
+
+```{r US_states_df}
+US_states_df = 
+  tibble(
+     Sample = rnorm(10),
+     Sample_gt_0 = Sample > 0,
+     States = c("New York", "California", "Rhode Island", "Maine", "Missouri", "Connecticut", 
+                "New Jersey", "Pennsylvania", "Washington", "South Dakota"),
+     Time_zone = factor(c("Eastern", "Pacific", "Eastern", "Eastern", "Central", "Eastern",                                 "Eastern", "Eastern", "Pacific", "Central")),
+)
+```
+
+Next, I try to take the mean of each variable
+
+```{r mean}
+mean(pull(US_states_df, Sample))
+mean(pull(US_states_df, Sample_gt_0))
+mean(pull(US_states_df, States))
+mean(pull(US_states_df, Time_zone))
+```
+
+I can take the mean of numbers and logical but not character or factor.
+
+```{r number_conversion}
+as.numeric(pull(US_states_df, Sample))
+as.numeric(pull(US_states_df, Sample_gt_0))
+as.numeric(pull(US_states_df, States))
+as.numeric(pull(US_states_df, Time_zone))
+```
+
+Number, logical, and factor variables can be converted to numbers.  Character variables cannot be converted to numbers.
+
+Next, I convert variables from one type to another as specified:
+
+```{r variable_conversions}
+as.numeric(pull(US_states_df, Sample_gt_0)) * pull(US_states_df, Sample)
+as.factor(pull(US_states_df, Sample_gt_0)) * pull(US_states_df, Sample)
+as.numeric(as.factor(pull(US_states_df, Sample_gt_0))) * pull(US_states_df, Sample)
+```
+
+The logical converted to numeric ranges from 0 to 1.  The product is numbers.
+The logical converted to factor yields "TRUE" or "FALSE".  The product is not meaningful.
+The logical converted to factor, then converted to numeric ranges from 1 to 2 (instead of 0 to 1 for some reason).  The product is numbers.
+
+
+
 
 The purpose of this file is to present a couple of basic plots using `ggplot`.
 
