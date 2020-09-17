@@ -7,11 +7,11 @@ output: github_document
 
 ### This is my solution to Problem 1.
 
-```{r include = FALSE} 
+```{r setup, include = FALSE} 
 library(tidyverse)
 ```
 
-#### Data frame comprised of the specified elements:
+#### Data frame comprised of the specified elements is as below:
 
 ```{r US_states_df}
 US_states_df = 
@@ -36,7 +36,7 @@ mean(pull(US_states_df, Time_zone))
 
 #### I can take the mean of numbers and logical but not character or factor.
 
-```{r numeric_conversion}
+```{r numeric_conversion, eval = FALSE}
 as.numeric(pull(US_states_df, Sample))
 as.numeric(pull(US_states_df, Sample_gt_0))
 as.numeric(pull(US_states_df, States))
@@ -47,7 +47,7 @@ as.numeric(pull(US_states_df, Time_zone))
 
 #### Next, I convert variables from one type to another as specified:
 
-```{r eval = FALSE}
+```{r convert, eval = FALSE}
 as.numeric(pull(US_states_df, Sample_gt_0)) * pull(US_states_df, Sample)
 as.factor(pull(US_states_df, Sample_gt_0)) * pull(US_states_df, Sample)
 as.numeric(as.factor(pull(US_states_df, Sample_gt_0))) * pull(US_states_df, Sample)
@@ -61,44 +61,28 @@ as.numeric(as.factor(pull(US_states_df, Sample_gt_0))) * pull(US_states_df, Samp
 
 #### Loading the downloaded "Penguins" dataset:
 
-```{r}
+```{r load_penguin}
 data("penguins", package = "palmerpenguins")
 ```
 
-#### Below, I will describe the "Penguins" dataset:
+#### This dataset appears to be a data frame consisting of `r ncol(penguins)` columns and `r nrow(penguins)` rows.  There are three factor variables indicating the species, island (of origin?), and biologic sex of the penguins.  
+#### There are three types of species: Adelie, Gentoo, and Chinstrap.
+#### There are three types of islands: Biscoe, Dream, and Torgeren
+#### The length (in millimeters), mass (in grams), and year are integer variables.
+#### The bill length (millimeters) and bill depth (millimeters) are also numbers and appear to be to the tenths decimal place.  There are missing data as indicated by "NA" in various fields.  The mean flipper length is `r mean(pull(penguins, flipper_length_mm))`.
 
-```{r description}
-penguins
-
-
-```
-
-#### This dataset appears to be a data frame consisting of 8 columns and 344 rows.  There are three factor variables indicating the species, island (of origin?), and biologic sex of the penguins.  The length (in millimeters), mass (in grams), and year are integer variables.  The bill length (millimeters) and bill depth (millimeters) are also numbers and appear to be to the tenths decimal place.  There are missing data as indicated by "NA" in various fields.
-
-
-
-
-The purpose of this file is to present a couple of basic plots using `ggplot`.
-
-First we create a dataframe containing variables for our plots.
+Next, I make a scatterplot of flipper length and bill length with color points defined by species.  The first step is creating the data frame.
 
 ```{r df_create}
-set.seed(1234)
-
-plot_df = tibble(
-  x = rnorm(1000, sd = .5),
-  y = 1 + 2 * x + rnorm(1000)
+scatterplot_df = tibble(
+  x = pull(penguins, bill_length_mm),
+  y = pull(penguins, flipper_length_mm),
+  z = pull(penguins, species)
 )
 ```
 
-First we show a histogram of the `x` variable.
-
-```{r x_hist}
-ggplot(plot_df, aes(x = x)) + geom_histogram()
-```
-
-Next we show a scatterplot of `y` vs `x`. 
+Next, I will generate the scatterplot:
 
 ```{r yx_scatter}
-ggplot(plot_df, aes(x = x, y = y)) + geom_point()
+ggplot(scatterplot_df, aes(x = x, y = y, color = z)) + geom_point()
 ```
