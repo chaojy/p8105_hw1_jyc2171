@@ -5,13 +5,13 @@ date: 2019-09-17
 output: github_document
 ---
 
-This is my solution to Problem 1
+### This is my solution to Problem 1.
 
 ```{r include = FALSE} 
 library(tidyverse)
 ```
 
-Data frame comprised of the specified elements
+#### Data frame comprised of the specified elements:
 
 ```{r US_states_df}
 US_states_df = 
@@ -22,9 +22,10 @@ US_states_df =
                 "New Jersey", "Pennsylvania", "Washington", "South Dakota"),
      Time_zone = factor(c("Eastern", "Pacific", "Eastern", "Eastern", "Central", "Eastern",                                 "Eastern", "Eastern", "Pacific", "Central")),
 )
+US_states_df
 ```
 
-Next, I try to take the mean of each variable
+#### Next, I try to take the mean of each variable.
 
 ```{r mean}
 mean(pull(US_states_df, Sample))
@@ -33,28 +34,46 @@ mean(pull(US_states_df, States))
 mean(pull(US_states_df, Time_zone))
 ```
 
-I can take the mean of numbers and logical but not character or factor.
+#### I can take the mean of numbers and logical but not character or factor.
 
-```{r number_conversion}
+```{r numeric_conversion}
 as.numeric(pull(US_states_df, Sample))
 as.numeric(pull(US_states_df, Sample_gt_0))
 as.numeric(pull(US_states_df, States))
 as.numeric(pull(US_states_df, Time_zone))
 ```
 
-Number, logical, and factor variables can be converted to numbers.  Character variables cannot be converted to numbers.
+#### Number, logical, and factor variables can be converted to numbers.  Character variables cannot be converted to numbers.
 
-Next, I convert variables from one type to another as specified:
+#### Next, I convert variables from one type to another as specified:
 
-```{r variable_conversions}
+```{r eval = FALSE}
 as.numeric(pull(US_states_df, Sample_gt_0)) * pull(US_states_df, Sample)
 as.factor(pull(US_states_df, Sample_gt_0)) * pull(US_states_df, Sample)
 as.numeric(as.factor(pull(US_states_df, Sample_gt_0))) * pull(US_states_df, Sample)
 ```
 
-The logical converted to numeric ranges from 0 to 1.  The product is numbers.
-The logical converted to factor yields "TRUE" or "FALSE".  The product is not meaningful.
-The logical converted to factor, then converted to numeric ranges from 1 to 2 (instead of 0 to 1 for some reason).  The product is numbers.
+#### The logical converted to numeric ranges from 0 to 1.  The product is numbers.
+#### The logical converted to factor yields "TRUE" or "FALSE".  The product is not meaningful.
+#### The logical converted to factor, then converted to numeric ranges from 1 to 2 (instead of 0 to 1 for some reason).  The product is numbers.
+
+### This is my solution to Problem 2.
+
+#### Loading the downloaded "Penguins" dataset:
+
+```{r}
+data("penguins", package = "palmerpenguins")
+```
+
+#### Below, I will describe the "Penguins" dataset:
+
+```{r description}
+penguins
+
+
+```
+
+#### This dataset appears to be a data frame consisting of 8 columns and 344 rows.  There are three factor variables indicating the species, island (of origin?), and biologic sex of the penguins.  The length (in millimeters), mass (in grams), and year are integer variables.  The bill length (millimeters) and bill depth (millimeters) are also numbers and appear to be to the tenths decimal place.  There are missing data as indicated by "NA" in various fields.
 
 
 
